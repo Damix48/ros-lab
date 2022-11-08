@@ -11,6 +11,7 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   std_msgs
   message_generation
+  actionlib
 )
 
 ## System dependencies are found with CMake's conventions
@@ -54,11 +55,6 @@ add_message_files(
   msg1.msg
 )
 
-## Generate added messages and services with any dependencies listed here
-generate_messages(
-  DEPENDENCIES
-  std_msgs
-)
 ## Generate services in the 'srv' folder
 # add_service_files(
 #   FILES
@@ -67,17 +63,17 @@ generate_messages(
 # )
 
 ## Generate actions in the 'action' folder
-# add_action_files(
-#   FILES
-#   Action1.action
-#   Action2.action
-# )
+add_action_files(
+  FILES
+  Fibonacci.action
+)
 
 ## Generate added messages and services with any dependencies listed here
-# generate_messages(
-#   DEPENDENCIES
-#   std_msgs
-# )
+generate_messages(
+  DEPENDENCIES
+  actionlib_msgs
+  std_msgs
+)
 
 ################################################
 ## Declare ROS dynamic reconfigure parameters ##
@@ -113,7 +109,9 @@ catkin_package(
 #  LIBRARIES intro_tutorial
 #  CATKIN_DEPENDS roscpp std_msgs
 #  DEPENDS system_lib
-  CATKIN_DEPENDS message_runtime
+  CATKIN_DEPENDS
+  actionlib
+  message_runtime
 )
 
 ###########
@@ -141,8 +139,12 @@ include_directories(
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
 # add_executable(${PROJECT_NAME}_node src/pub.cpp)
+
 add_executable(pub_node src/pub.cpp)
 add_executable(sub_node src/sub.cpp)
+
+add_executable(fibonacci_server src/server.cpp)
+add_executable(fibonacci_client src/client.cpp)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -162,6 +164,16 @@ target_link_libraries(
 
 target_link_libraries(
   sub_node
+  ${catkin_LIBRARIES}
+)
+
+target_link_libraries(
+  fibonacci_server
+  ${catkin_LIBRARIES}
+)
+
+target_link_libraries(
+  fibonacci_client
   ${catkin_LIBRARIES}
 )
 
@@ -219,3 +231,6 @@ target_link_libraries(
 
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)
+
+add_dependencies(fibonacci_server ${intro_tutorial_EXPORTED_TARGETS})
+add_dependencies(fibonacci_client ${intro_tutorial_EXPORTED_TARGETS})
