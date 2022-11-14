@@ -1,0 +1,11 @@
+# goal definition
+Header goal_header
+float32 target_battery
+---
+# result definition
+Header result_header
+bool reached
+---
+# feedback
+Header feedback_header
+float32 current_battery
