@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.0.2)
-project(exercise_4_1)
+project(exercise_4_2)
 
 ## Compile as C++11, supported in ROS Kinetic and newer
 # add_compile_options(-std=c++11)
@@ -17,6 +17,8 @@ find_package(catkin REQUIRED COMPONENTS
   tf2_ros
   tf2_geometry_msgs
 )
+
+find_package(OpenCV REQUIRED)
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
@@ -123,6 +125,7 @@ catkin_package(
 include_directories(
 # include
   ${catkin_INCLUDE_DIRS}
+  ${OpenCV_INCLUDE_DIRS}
 )
 
 ## Declare a C++ library
@@ -216,4 +219,4 @@ target_link_libraries(
   ${catkin_LIBRARIES}
 )
 
-# add_dependencies(main ${exercise_4_1_EXPORTED_TARGETS})
+# add_dependencies(main ${exercise_4_2_EXPORTED_TARGETS})
